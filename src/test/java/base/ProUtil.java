@@ -3,7 +3,7 @@ package base;
 import org.openqa.selenium.By;
 
 import java.io.*;
-import java.util.Properties;
+import java.util.*;
 
 public class ProUtil {
     Properties prop = new Properties();
@@ -27,27 +27,43 @@ public class ProUtil {
         }
         return properties;
     }
-    public String getPro(String str){
+    public List<String> getPro(String str){
 
         if (prop.containsKey(str)){
-            return prop.getProperty(str);
+            String strValue = prop.getProperty(str);
+            List<String> strList = new ArrayList<String>();
+            String[] strSplit = strValue.split(":");
+            for(int i=0;i<strSplit.length;i++){
+                String value = str.split(":")[i];
+                strList.add(value);
+            }
+            return strList;
         }
         else
-            return "key未找到";
+            return null;
     }
-
-    public static By proBy(String type , String value){
-        if("name".equals(type)){
-           return By.name(value);
+    public  By proBy(String key){
+        List<String> strList = new ArrayList<String>();
+        if (prop.containsKey(key)) {
+            String strValue = prop.getProperty(key);
+            String strSplit[] = strValue.split(":");
+            for (int i = 0; i < strSplit.length; i++) {
+                String value = strValue.split(":")[i];
+                System.out.println(value);
+                strList.add(value);
+            }
         }
-        if("id".equals(type)){
-            return By.id(value);
+        if("name".equals(strList.get(0))){
+           return By.name(strList.get(1));
         }
-        if ("classname".equals(type)){
-            return By.className(value);
+        if("id".equals(strList.get(0))){
+            return By.id(strList.get(1));
         }
-        if("xpath".equals(type)) {
-            return By.xpath(value);
+        if ("classname".equals(strList.get(0))){
+            return By.className(strList.get(1));
+        }
+        if("xpath".equals(strList.get(0))) {
+            return By.xpath(strList.get(1));
         }
         return null;
     }

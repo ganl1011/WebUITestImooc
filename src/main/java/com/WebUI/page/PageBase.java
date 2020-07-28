@@ -19,7 +19,7 @@ public class PageBase {
      * @param by
      * @return
      */
-    public WebElement findelement(By by){
+    public WebElement element(By by){
        WebElement element = dr.findElement(by);
        return element;
     }

@@ -11,7 +11,9 @@ public class DriverBase {
         dr = driver.selectDr(webDriver);
         dr.manage().window().maximize();
     }
-
+    public WebDriver driver(){
+        return dr;
+    }
     public void stop(){
         dr.close();
         System.out.println("浏览器已关闭");
